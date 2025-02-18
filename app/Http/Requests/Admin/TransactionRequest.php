@@ -21,6 +21,14 @@ class TransactionRequest extends FormRequest
      */
     public function rules(): array
     {
+        // return [
+        //     'user_id' => 'required|exists:users,id',
+        //     'book_id' => 'required|exists:books,id',
+        //     'borrow_date' => 'required|date',
+        //     'return_date' => 'nullable|date|after_or_equal:borrow_date',
+        //     'status' => 'required|in:borrowed,returned'
+        // ];
+
         return [
             'user_id' => 'required|exists:users,id',
             'book_id' => 'required|exists:books,id',

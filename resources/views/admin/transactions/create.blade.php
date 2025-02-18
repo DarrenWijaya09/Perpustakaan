@@ -19,19 +19,17 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Anggota</label>
                         <select name="user_id"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}"
-                                    {{ (isset($transaction) && $transaction->user_id === $user->id) || old('user_id') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }} ({{ $user->nis }})
-                                </option>
-                            @endforeach
+                            @foreach($users as $user)
+                            <option value="{{ $user->id }}" {{ $transaction->user_id == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
                         </select>
                         @error('user_id')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <!-- Buku -->
                     <!-- Buku -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Buku</label>
