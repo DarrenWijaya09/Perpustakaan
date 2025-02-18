@@ -17,32 +17,29 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">User</label>
                         <select name="user_id" id="user_id"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-100 cursor-not-allowed"
+                            disabled>
                             <option value="">-- Pilih User --</option>
-                            @foreach($users as $user)
+                            @foreach ($users as $user)
                                 <option value="{{ $user->id }}"
                                     {{ old('user_id', isset($member) ? $member->user_id : '') == $user->id ? 'selected' : '' }}
-                                    data-nis="{{ $user->nis }}"
-                                    data-class="{{ $user->class }}"
+                                    data-nis="{{ $user->nis }}" data-class="{{ $user->class }}"
                                     data-major="{{ $user->major }}">
                                     {{ $user->name }} ({{ $user->email }})
                                 </option>
                             @endforeach
                         </select>
-                        @error('user_id')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <input type="hidden" name="user_id" value="{{ old('user_id', $member->user_id ?? '') }}">
                     </div>
+
 
                     <!-- NIS -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">NIS</label>
-                        <input type="number" name="nis" id="nis"
-                            value="{{ old('nis', $member->nis ?? '') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        @error('nis')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <input type="number" name="nis" id="nis" value="{{ old('nis', $member->nis ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 cursor-not-allowed"
+                            readonly>
+                        <input type="hidden" name="nis" value="{{ old('nis', $member->nis ?? '') }}">
                     </div>
 
                     <!-- Kelas -->

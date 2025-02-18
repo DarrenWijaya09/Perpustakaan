@@ -51,13 +51,13 @@
                     <td class="px-6 py-4">{{ $member->class }}</td>
                     <td class="px-6 py-4">{{ $member->major }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        {{-- <a href="{{ route('admin.members.edit', $member->id) }}"
+                        <a href="{{ route('admin.members.edit', $member->id) }}"
                            class="text-indigo-600 hover:text-indigo-900 mr-3 flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
                             </svg>
                             Edit
-                        </a> --}}
+                        </a>
                         <form action="{{ route('admin.members.destroy', $member->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')

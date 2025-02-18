@@ -21,11 +21,20 @@ class MemberRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'user_id' => 'required|exists:users,id|unique:members,user_id',
-            'nis' => 'required|string|unique:members,nis|max:50',
-            'class' => 'required|string|max:50',
-            'major' => 'required|string|max:100',
-        ];
+        // return [
+        //     'user_id' => 'required|exists:users,id|unique:members,user_id',
+        //     'nis' => 'required|string|unique:members,nis|max:50',
+        //     'class' => 'required|string|max:50',
+        //     'major' => 'required|string|max:100',
+        // ];
+
+        $memberId = $this->route('member') ? $this->route('member')->id : null;
+
+    return [
+        'user_id' => 'required|exists:users,id' . ($this->isMethod('post') ? '|unique:members,user_id' : ''),
+        'nis' => 'required|string|max:50' . ($memberId ? "|unique:members,nis,$memberId" : '|unique:members,nis'),
+        'class' => 'required|string|max:50',
+        'major' => 'required|string|max:100',
+    ];
     }
 }

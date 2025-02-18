@@ -28,13 +28,11 @@ class MemberController extends Controller
     {
         $users = User::whereIn('role', ['admin', 'student'])
             ->whereDoesntHave('member') // Hanya user yang belum menjadi anggota
-            ->select('id', 'name', 'email', 'nis', 'class', 'major') // Pastikan field tersedia
+            ->select('id', 'name', 'email', 'nis', 'class', 'major')
             ->get();
 
         return view('admin.members.create', compact('users'));
     }
-
-
 
     public function store(MemberRequest $request)
     {
@@ -45,15 +43,29 @@ class MemberController extends Controller
 
     public function edit(Member $member)
     {
-        // return view('admin.members.create', compact('member'));
+        $users = User::whereIn('role', ['admin', 'student'])
+            ->select('id', 'name', 'email', 'nis', 'class', 'major')
+            ->get();
+
+        return view('admin.members.create', compact('member', 'users'));
     }
 
     public function update(MemberRequest $request, Member $member)
     {
-        // $member->update($request->validated());
+        $validatedData = $request->validated();
 
-        // return redirect()->route('admin.members.index')->with('success', 'Data anggota berhasil diperbarui!');
+        // Pastikan user_id dan nis tetap menggunakan nilai lama
+        $validatedData['user_id'] = $member->user_id;
+        $validatedData['nis'] = $member->nis;
+
+        $member->update([
+            'class' => $validatedData['class'],
+            'major' => $validatedData['major'],
+        ]);
+
+        return redirect()->route('admin.members.index')->with('success', 'Data anggota berhasil diperbarui!');
     }
+
 
     public function destroy(Member $member)
     {
