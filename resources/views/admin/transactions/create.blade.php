@@ -15,20 +15,22 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Anggota -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Anggota</label>
-                        <select name="user_id"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ $transaction->user_id == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
-                        @endforeach
-                        </select>
-                        @error('user_id')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Anggota</label>
+
+                        @if(isset($transaction))
+                            <input type="hidden" name="user_id" value="{{ $transaction->user_id }}">
+                            <p class="text-gray-900 font-semibold">{{ $transaction->user->name }}</p>
+                        @else
+                            <select name="user_id" class="w-full p-2 border rounded-lg">
+                                <option value="">Pilih Anggota</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->nis }}</option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
+
 
                     <!-- Buku -->
                     <div>

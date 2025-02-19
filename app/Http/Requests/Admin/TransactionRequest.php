@@ -29,12 +29,17 @@ class TransactionRequest extends FormRequest
         //     'status' => 'required|in:borrowed,returned'
         // ];
 
-        return [
-            'user_id' => 'required|exists:users,id',
+        $rules = [
             'book_id' => 'required|exists:books,id',
             'borrow_date' => 'required|date',
             'return_date' => 'nullable|date|after_or_equal:borrow_date',
             'status' => 'required|in:borrowed,returned'
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['user_id'] = 'required|exists:users,id'; // Hanya validasi saat create
+        }
+
+        return $rules;
     }
 }

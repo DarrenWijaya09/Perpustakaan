@@ -69,10 +69,15 @@ class TransactionController extends Controller
     public function create()
     {
         $users = User::where('role', 'student')->get();
-        $books = Book::all(); // Tidak ada pengecekan stock
+
+        // Ambil buku yang tidak sedang dipinjam
+        $books = Book::whereDoesntHave('transactions', function ($query) {
+            $query->where('status', 'borrowed');
+        })->get();
 
         return view('admin.transactions.create', compact('users', 'books'));
     }
+
 
     public function store(TransactionRequest $request)
     {
@@ -93,6 +98,9 @@ class TransactionController extends Controller
     {
         $data = $request->validated();
 
+        // Hanya update field yang diperbolehkan
+        unset($data['user_id']); // Hindari perubahan user_id
+
         // Handle return date
         if($data['status'] === 'returned' && is_null($transaction->return_date)) {
             $data['return_date'] = now();
@@ -101,6 +109,7 @@ class TransactionController extends Controller
         $transaction->update($data);
         return redirect()->route('admin.transactions.index')->with('success', 'Transaksi berhasil diperbarui!');
     }
+
 
     public function destroy(Transaction $transaction)
     {
